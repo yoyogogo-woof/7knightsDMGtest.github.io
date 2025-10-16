@@ -3,23 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <title>傷害計算機</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       font-family: 'Noto Sans TC', sans-serif;
       background-color: #f9fafb;
       color: #111827;
       max-width: 600px;
-      margin: 40px auto;
+      margin: 0 auto;
       padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
     h1 {
       text-align: center;
       color: #2563eb;
+      margin-top: 20px;
     }
     .input-group {
-      margin: 10px 0;
+      margin: 12px 0;
     }
     label {
       display: block;
@@ -32,27 +32,25 @@
       border: 1px solid #d1d5db;
       border-radius: 6px;
       font-size: 14px;
-    }
-    button {
-      width: 100%;
-      margin-top: 20px;
-      padding: 10px;
-      font-size: 16px;
-      background-color: #2563eb;
-      color: white;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #1d4ed8;
+      box-sizing: border-box;
     }
     #result {
-      margin-top: 20px;
-      font-size: 18px;
+      margin-top: 24px;
+      font-size: 20px;
       font-weight: bold;
       color: #111827;
       text-align: center;
+    }
+    @media (max-width: 600px) {
+      body {
+        padding: 10px;
+      }
+      h1 {
+        font-size: 22px;
+      }
+      input {
+        font-size: 16px;
+      }
     }
   </style>
 </head>
@@ -66,30 +64,53 @@
   <div class="input-group"><label>寵物攻擊力</label><input type="number" id="petAtkFlat" value="0"></div>
   <div class="input-group"><label>Buff加攻%</label><input type="number" id="buffAtk" value="0"></div>
   <div class="input-group"><label>寵物技能加攻%</label><input type="number" id="petSkillAtk" value="0"></div>
-  <div class="input-group"><label>招式倍率</label><input type="number" id="skillRate" value="1"></div>
+  <div class="input-group"><label>招式倍率（輸入百分比，如100代表1倍）</label><input type="number" id="skillRate" value="100"></div>
   <div class="input-group"><label>暴擊傷害%</label><input type="number" id="critDmg" value="0"></div>
   <div class="input-group"><label>弱點傷害%</label><input type="number" id="weakDmg" value="0"></div>
   <div class="input-group"><label>復仇套增傷%</label><input type="number" id="revengeDmg" value="0"></div>
   <div class="input-group"><label>敵方防禦力</label><input type="number" id="enemyDef" value="0"></div>
 
-  <button onclick="calculate()">計算傷害</button>
-
-  <div id="result">請輸入數值並按下計算</div>
+  <div id="result">請輸入數值</div>
 
   <script>
+    const fields = [
+      'atkPanel', 'atkBase', 'formAtk', 'petAtkPercent', 'petAtkFlat',
+      'buffAtk', 'petSkillAtk', 'skillRate', 'critDmg', 'weakDmg', 'revengeDmg', 'enemyDef'
+    ];
+
+    // 初始化：從 localStorage 載入舊資料
+    window.onload = () => {
+      fields.forEach(id => {
+        const saved = localStorage.getItem(id);
+        if (saved !== null) document.getElementById(id).value = saved;
+      });
+      calculate();
+    };
+
+    // 自動儲存與即時計算
+    fields.forEach(id => {
+      document.getElementById(id).addEventListener('input', () => {
+        const val = document.getElementById(id).value;
+        localStorage.setItem(id, val);
+        calculate();
+      });
+    });
+
     function calculate() {
-      const atkPanel = parseFloat(document.getElementById('atkPanel').value) || 0;
-      const atkBase = parseFloat(document.getElementById('atkBase').value) || 0;
-      const formAtk = parseFloat(document.getElementById('formAtk').value) / 100 || 0;
-      const petAtkPercent = parseFloat(document.getElementById('petAtkPercent').value) / 100 || 0;
-      const petAtkFlat = parseFloat(document.getElementById('petAtkFlat').value) || 0;
-      const buffAtk = parseFloat(document.getElementById('buffAtk').value) / 100 || 0;
-      const petSkillAtk = parseFloat(document.getElementById('petSkillAtk').value) / 100 || 0;
-      const skillRate = parseFloat(document.getElementById('skillRate').value) / 100 || 1;
-      const critDmg = parseFloat(document.getElementById('critDmg').value) / 100 || 0;
-      const weakDmg = parseFloat(document.getElementById('weakDmg').value) / 100 || 0;
-      const revengeDmg = parseFloat(document.getElementById('revengeDmg').value) / 100 || 0;
-      const enemyDef = parseFloat(document.getElementById('enemyDef').value) || 0;
+      const v = id => parseFloat(document.getElementById(id).value) || 0;
+
+      const atkPanel = v('atkPanel');
+      const atkBase = v('atkBase');
+      const formAtk = v('formAtk') / 100;
+      const petAtkPercent = v('petAtkPercent') / 100;
+      const petAtkFlat = v('petAtkFlat');
+      const buffAtk = v('buffAtk') / 100;
+      const petSkillAtk = v('petSkillAtk') / 100;
+      const skillRate = v('skillRate') / 100;
+      const critDmg = v('critDmg') / 100;
+      const weakDmg = v('weakDmg') / 100;
+      const revengeDmg = v('revengeDmg') / 100;
+      const enemyDef = v('enemyDef');
 
       const defRate = 1 - (enemyDef / (467 + enemyDef));
 
