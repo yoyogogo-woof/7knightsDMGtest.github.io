@@ -54,7 +54,22 @@
             <span class="px-3 text-gray-400">%</span>
           </div>
         </label>
-        <label class="flex flex-col">
+      </div>
+      <!-- 套裝效果 -->
+<div class="mt-4 border-t pt-4">
+  <h3 class="text-lg font-semibold mb-2">💎 套裝效果</h3>
+  <select id="setEffect" class="border rounded p-2 w-full">
+    <option value="none">無套裝效果</option>
+    <option value="tracker4">追蹤者四件套（弱點傷害 +65%）</option>
+    <option value="avenger2">復仇者兩件套（傷害量 +15%）</option>
+    <option value="avenger4">復仇者四件套（傷害量 +30%）</option>
+    <option value="avenger4Boss">復仇者四件套 - 攻擊對象為BOSS（傷害量 +70%）</option>
+  </select>
+</div>
+     <section>
+      <h2 class="text-xl font-semibold border-b pb-2 mb-4">✨ BUFF(選填)</h2>
+      <div class="grid grid-cols-2 gap-4">
+       <label class="flex flex-col">
           <span>弱點傷害量增加(不包含套裝效果)</span>
           <div class="flex items-center border rounded overflow-hidden">
             <input type="number" id="weakDmg" class="p-2 w-full pr-1 outline-none" placeholder="輸入數值">
@@ -68,19 +83,9 @@
             <span class="px-3 text-gray-400">%</span>
           </div>
         </label>
-      </div>
-      <!-- 套裝效果 -->
-<div class="mt-4 border-t pt-4">
-  <h3 class="text-lg font-semibold mb-2">💎 套裝效果</h3>
-  <select id="setEffect" class="border rounded p-2 w-full">
-    <option value="none">無套裝效果</option>
-    <option value="tracker4">追蹤者四件套（弱點傷害 +65%）</option>
-    <option value="avenger2">復仇者兩件套（傷害量 +15%）</option>
-    <option value="avenger4">復仇者四件套（傷害量 +30%）</option>
-    <option value="avenger4Boss">復仇者四件套（攻擊 BOSS 時 傷害量 +70%）</option>
-  </select>
-</div>
+        </div>
     </section>
+    
 
     <!-- 寵物資料 -->
     <section>
@@ -263,6 +268,7 @@ fields.forEach(id => {
   </script>
 </body>
 </html>
+
 
 
 
