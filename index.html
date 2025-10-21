@@ -16,7 +16,7 @@
 
     <!-- 攻擊力區塊 -->
     <section>
-      <h2 class="text-xl font-semibold border-b pb-2 mb-4">🗡️ 攻擊力相關</h2>
+      <h2 class="text-xl font-semibold border-b pb-2 mb-4">🗡️ 主輸出資料</h2>
       <div class="grid grid-cols-2 gap-4">
         <label class="flex flex-col">
           <span>面板攻擊力</span>
@@ -24,20 +24,62 @@
         </label>
         <label class="flex flex-col">
           <span>基礎攻擊力</span>
-          <input type="number" class="border rounded p-2" placeholder="輸入數值">
+          <input type="number" class="border rounded p-2" placeholder="圖鑑看，大多輸出都是1500">
         </label>
         <label class="flex flex-col">
-          <span>陣型攻%</span>
-          <input type="number" class="border rounded p-2" placeholder="例如 20">
+          <span>陣型加攻(%)</span>
+          <input type="number" class="border rounded p-2" placeholder="例如 42">
         </label>
-        <label class="flex flex-col">
-          <span>寵物潛能攻%</span>
-          <input type="number" class="border rounded p-2" placeholder="例如 15">
+         <label class="flex flex-col">
+          <span>攻擊力增加(%)</span>
+          <input type="number" class="border rounded p-2" placeholder="20">
+        </label>
+         <label class="flex flex-col">
+          <span>招式倍率(%)</span>
+          <input type="number" class="border rounded p-2" placeholder="例如 42">
+        </label>
+         <label class="flex flex-col">
+          <span>暴擊傷害(%)</span>
+          <input type="number" class="border rounded p-2" placeholder="150">
+        </label>
+         <label class="flex flex-col">
+          <span>弱點傷害(%)</span>
+          <input type="number" class="border rounded p-2" placeholder="60">
+        </label>
+         <label class="flex flex-col">
+          <span>套裝增傷(%)</span>
+          <input type="number" class="border rounded p-2" placeholder="例如 42">
         </label>
       </div>
     </section>
 
-    <!-- 敵人資料區 -->
+    <!-- 寵物資料 -->
+    <section>
+      <h2 class="text-xl font-semibold border-b pb-2 mb-4">🐕 寵物資料</h2>
+      <div class="grid grid-cols-2 gap-4">
+        <label class="flex flex-col">
+          <span>寵物攻擊力</span>
+          <input type="number" class="border rounded p-2" placeholder="輸入數值">
+        </label>
+       <label class="flex flex-col">
+          <span>技能 - 增加攻擊力(%)</span>
+          <input type="number" class="border rounded p-2" placeholder="輸入數值">
+       </label>
+        <label class="flex flex-col">
+          <span>技能 - 增加暴擊傷害(%)</span>
+          <input type="number" class="border rounded p-2" placeholder="輸入數值">
+        </label>
+        <label class="flex flex-col">
+          <span>技能 - 增加傷害(%)</span>
+          <input type="number" class="border rounded p-2" placeholder="輸入數值">
+        </label>
+
+       
+      </div>
+    </section>
+    
+    
+    <!-- 敵人資料 -->
     <section>
       <h2 class="text-xl font-semibold border-b pb-2 mb-4">🛡️ 敵人資料</h2>
       <div class="grid grid-cols-2 gap-4">
@@ -46,9 +88,10 @@
           <input type="number" class="border rounded p-2" placeholder="輸入防禦值">
         </label>
         <label class="flex flex-col">
-          <span>弱點傷害%</span>
-          <input type="number" class="border rounded p-2" placeholder="例如 10">
+          <span>物力/魔法減傷(%)</span>
+          <input type="number" class="border rounded p-2" placeholder="輸入數值">
         </label>
+       
       </div>
     </section>
 
@@ -63,6 +106,7 @@
   </div>
 </body>
 </html>
+
 
 
 
