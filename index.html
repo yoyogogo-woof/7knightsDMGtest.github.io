@@ -26,21 +26,7 @@
           <span>基礎攻擊力</span>
           <input type="number" id="atkBase" class="border rounded p-2" placeholder="圖鑑看，大部分都是1500">
         </label>
-        <label class="flex flex-col">
-          <span>陣型提升攻擊力</span>
-          <div class="flex items-center border rounded overflow-hidden">
-            <input type="number" id="formAtk" class="p-2 w-full pr-1 outline-none" placeholder="輸入數值">
-            <span class="px-3 text-gray-400">%</span>
-          </div>
-        </label>
-        <label class="flex flex-col">
-          <span>攻擊力增加</span>
-          <div class="flex items-center border rounded overflow-hidden">
-            <input type="number" id="buffAtk" class="p-2 w-full pr-1 outline-none" placeholder="輸入數值">
-            <span class="px-3 text-gray-400">%</span>
-          </div>
-        </label>
-        <label class="flex flex-col">
+          <label class="flex flex-col">
           <span>招式倍率</span>
           <div class="flex items-center border rounded overflow-hidden">
             <input type="number" id="skillRate" class="p-2 w-full pr-1 outline-none" placeholder="輸入數值">
@@ -51,6 +37,13 @@
           <span>暴擊傷害</span>
           <div class="flex items-center border rounded overflow-hidden">
             <input type="number" id="critDmg" class="p-2 w-full pr-1 outline-none" placeholder="輸入數值">
+            <span class="px-3 text-gray-400">%</span>
+          </div>
+        </label>
+        <label class="flex flex-col">
+          <span>陣型提升攻擊力</span>
+          <div class="flex items-center border rounded overflow-hidden">
+            <input type="number" id="formAtk" class="p-2 w-full pr-1 outline-none" placeholder="輸入數值">
             <span class="px-3 text-gray-400">%</span>
           </div>
         </label>
@@ -73,6 +66,13 @@
       <h2 class="text-xl font-semibold border-b pb-2 mb-4">✨ BUFF(選填)</h2>
       <div class="grid grid-cols-2 gap-4">
         <label class="flex flex-col">
+          <label class="flex flex-col">
+          <span>攻擊力增加</span>
+          <div class="flex items-center border rounded overflow-hidden">
+            <input type="number" id="buffAtk" class="p-2 w-full pr-1 outline-none" placeholder="輸入數值">
+            <span class="px-3 text-gray-400">%</span>
+          </div>
+        </label>
           <span>弱點傷害量增加</span>
           <div class="flex items-center border rounded overflow-hidden">
             <input type="number" id="weakDmg" class="p-2 w-full pr-1 outline-none" placeholder="輸入數值">
@@ -87,9 +87,9 @@
           </div>
         </label>
         <label class="flex flex-col">
-          <span>攻擊力增加</span>
+          <span>暴擊傷害增加</span>
           <div class="flex items-center border rounded overflow-hidden">
-            <input type="number" id="revengeDmg" class="p-2 w-full pr-1 outline-none" placeholder="輸入數值">
+            <input type="number" id="buffCritDMG" class="p-2 w-full pr-1 outline-none" placeholder="輸入數值">
             <span class="px-3 text-gray-400">%</span>
           </div>
         </label>
@@ -277,3 +277,4 @@ fields.forEach(id => {
   </script>
 </body>
 </html>
+
