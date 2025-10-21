@@ -156,37 +156,67 @@
 
     // 計算公式
     function calculate() {
-      const v = id => parseFloat(document.getElementById(id).value) || 0;
+  const v = id => parseFloat(document.getElementById(id).value) || 0;
 
-      const atkPanel = v('atkPanel');
-      const atkBase = v('atkBase');
-      const formAtk = v('formAtk') / 100;
-      const buffAtk = v('buffAtk') / 100;
-      const skillRate = v('skillRate') / 100;
-      const critDmg = v('critDmg') / 100;
-      const weakDmg = v('weakDmg') / 100;
-      const revengeDmg = v('revengeDmg') / 100;
-      const petAtkFlat = v('petAtkFlat');
-      const petSkillAtk = v('petSkillAtk') / 100;
-      const petCritDmg = v('petCritDmg') / 100;
-      const petAtkPercent = v('petAtkPercent') / 100;
-      const enemyDef = v('enemyDef');
-      const reduceRate = v('reduceRate') / 100;
+  const atkPanel = v('atkPanel');
+  const atkBase = v('atkBase');
+  const formAtk = v('formAtk') / 100;
+  const buffAtk = v('buffAtk') / 100;
+  const skillRate = v('skillRate') / 100;
+  const critDmg = v('critDmg') / 100;
+  const weakDmg = v('weakDmg') / 100;
+  const revengeDmg = v('revengeDmg') / 100;
+  const petAtkFlat = v('petAtkFlat');
+  const petSkillAtk = v('petSkillAtk') / 100;
+  const petCritDmg = v('petCritDmg') / 100;
+  const petAtkPercent = v('petAtkPercent') / 100;
+  const enemyDef = v('enemyDef');
+  const reduceRate = v('reduceRate') / 100;
 
-      const defRate = (1 - (enemyDef / (467 + enemyDef))) * (1 - reduceRate);
+  const DEF_CONST = 467;
+  const defRate = (1 - (enemyDef / (DEF_CONST + enemyDef))) * (1 - reduceRate);
 
-      const dmg = (
-        (atkPanel + atkBase * (formAtk + petAtkPercent) + petAtkFlat)
-        * (1 + buffAtk + petSkillAtk)
-        * skillRate
-        * (1 + ( critDmg + petCritDmg - 1 ) )
-        * (1 + weakDmg)
-        * (1 + revengeDmg)
-        * defRate
-      );
+  // ---- 基礎攻擊計算 ----
+  const atkTotal = (atkPanel + atkBase * (formAtk + petAtkPercent) + petAtkFlat) * (1 + buffAtk + petSkillAtk);
 
-      document.getElementById('result').innerText = `最終傷害：${Math.round(dmg).toLocaleString()}`;
-    }
+  // ---- 三種傷害 ----
+  // 1️⃣ 只暴擊（弱點不吃）
+  const dmgCritOnly = atkTotal
+    * skillRate
+    * (1 + (critDmg + petCritDmg - 1)) // 暴擊加成
+    * (1 + revengeDmg)
+    * defRate;
+
+  // 2️⃣ 只弱點（暴擊不吃，固定100%）
+  const dmgWeakOnly = atkTotal
+    * skillRate
+    * (1 + weakDmg)
+    * (1 + revengeDmg)
+    * defRate;
+
+  // 3️⃣ 暴擊 + 弱點（原始最終傷害）
+  const dmgBoth = atkTotal
+    * skillRate
+    * (1 + (critDmg + petCritDmg - 1))
+    * (1 + weakDmg)
+    * (1 + revengeDmg)
+    * defRate;
+
+  // ---- 顯示 ----
+  if (isNaN(dmgBoth) || dmgBoth <= 0) {
+    document.getElementById('result').innerHTML = `<span class="text-gray-400">請輸入完整數值</span>`;
+    return;
+  }
+
+  document.getElementById('result').innerHTML = `
+    <div class="space-y-2">
+      <p>💥 <b>只暴擊：</b> ${Math.round(dmgCritOnly).toLocaleString()}</p>
+      <p>🎯 <b>只弱點：</b> ${Math.round(dmgWeakOnly).toLocaleString()}</p>
+      <p>🔥 <b>暴擊＋弱點：</b> <span class="text-blue-600 font-bold">${Math.round(dmgBoth).toLocaleString()}</span></p>
+    </div>
+  `;
+}
+
 
     // 重設按鈕
     document.getElementById('resetBtn').addEventListener('click', () => {
@@ -200,4 +230,5 @@
   </script>
 </body>
 </html>
+
 
