@@ -53,10 +53,10 @@
   <h3 class="text-lg font-semibold mb-2">💎 套裝效果</h3>
   <select id="setEffect" class="border rounded p-2 w-full">
     <option value="none">無套裝效果</option>
-    <option value="tracker4">追蹤者四件套（弱點傷害 +65%）</option>
+    <option value="tracker4">追蹤者四件套（弱點傷害 +35%）</option>
     <option value="avenger2">復仇者兩件套（傷害量 +15%）</option>
     <option value="avenger4">復仇者四件套（傷害量 +30%）</option>
-    <option value="avenger4Boss">復仇者四件套（攻擊 BOSS 時 傷害量 +70%）</option>
+    <option value="avenger4Boss">復仇者四件套（攻擊 BOSS 時 傷害量 +40%）</option>
   </select>
 </div>
     </section>
@@ -90,6 +90,13 @@
           <span>暴擊傷害增加</span>
           <div class="flex items-center border rounded overflow-hidden">
             <input type="number" id="buffCritDMG" class="p-2 w-full pr-1 outline-none" placeholder="輸入數值">
+            <span class="px-3 text-gray-400">%</span>
+          </div>
+        </label>
+        <label class="flex flex-col">
+          <span>減少防禦力</span>
+          <div class="flex items-center border rounded overflow-hidden">
+            <input type="number" id="deffDown" class="p-2 w-full pr-1 outline-none" placeholder="輸入數值">
             <span class="px-3 text-gray-400">%</span>
           </div>
         </label>
@@ -158,7 +165,7 @@
     const fields = [
       'atkPanel', 'atkBase', 'formAtk', 'buffAtk', 'skillRate', 'critDmg',
       'weakDmg', 'revengeDmg', 'petAtkFlat', 'petSkillAtk', 'petCritDmg', 
-      'petAtkPercent', 'enemyDef', 'reduceRate', 'setEffect','buffCritDMG'
+      'petAtkPercent', 'enemyDef', 'reduceRate', 'setEffect','buffCritDMG','deffDown'
     ];
 
     // 載入舊資料
@@ -207,7 +214,7 @@ fields.forEach(id => {
 
   switch (setEffect) {
     case 'tracker4':
-      weakDmgTotal += 0.65;
+      weakDmgTotal += 0.35;
       break;
     case 'avenger2':
       revengeDmgTotal += 0.15;
@@ -221,9 +228,9 @@ fields.forEach(id => {
     default:
       break;
   }
-
+  const deffDown = v('deffDown')/100;
   const DEF_CONST = 467;
-  const defRate = (1 - (enemyDef / (DEF_CONST + enemyDef))) * (1 - reduceRate);
+  const defRate = (1 - ( (enemyDef * (1-deffDown) ) / (DEF_CONST + (enemyDef * (1-deffDown) )))) * (1 - reduceRate);
 
   // ---- 基礎攻擊計算 ----
   const atkTotal = (atkPanel + atkBase * (formAtk + petAtkPercent) + petAtkFlat) * (1 + buffAtk + petSkillAtk);
@@ -279,6 +286,7 @@ fields.forEach(id => {
   </script>
 </body>
 </html>
+
 
 
 
