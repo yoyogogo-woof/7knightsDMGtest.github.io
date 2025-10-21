@@ -69,6 +69,28 @@
           </div>
         </label>
       </div>
+      <!-- 套裝效果 -->
+<div class="mt-4 border-t pt-4">
+  <h3 class="text-lg font-semibold mb-2">💎 套裝效果</h3>
+  <div class="flex flex-col space-y-2">
+    <label class="flex items-center space-x-2">
+      <input type="checkbox" id="setTracker4" class="w-4 h-4">
+      <span>追蹤者四件套（弱點傷害 +35%）</span>
+    </label>
+    <label class="flex items-center space-x-2">
+      <input type="checkbox" id="setAvenger2" class="w-4 h-4">
+      <span>復仇者兩件套（傷害量 +15%）</span>
+    </label>
+    <label class="flex items-center space-x-2">
+      <input type="checkbox" id="setAvenger4" class="w-4 h-4">
+      <span>復仇者四件套（傷害量 +30%）</span>
+    </label>
+    <label class="flex items-center space-x-2">
+      <input type="checkbox" id="setAvenger4Boss" class="w-4 h-4">
+      <span>復仇者四件套（攻擊 BOSS 時 傷害量 +70%）</span>
+    </label>
+  </div>
+</div>
     </section>
 
     <!-- 寵物資料 -->
@@ -133,23 +155,33 @@
     const fields = [
       'atkPanel', 'atkBase', 'formAtk', 'buffAtk', 'skillRate', 'critDmg',
       'weakDmg', 'revengeDmg', 'petAtkFlat', 'petSkillAtk', 'petCritDmg', 
-      'petAtkPercent', 'enemyDef', 'reduceRate'
+      'petAtkPercent', 'enemyDef', 'reduceRate',
+      'setTracker4', 'setAvenger2', 'setAvenger4', 'setAvenger4Boss'
     ];
 
     // 載入舊資料
     window.onload = () => {
       fields.forEach(id => {
+        const el = document.getElementById(id);
         const saved = localStorage.getItem(id);
-        if (saved !== null) document.getElementById(id).value = saved;
+        if (el.type === 'checkbox') {
+          el.checked = saved === 'true';
+        } else if (saved !== null) {
+          el.value = saved;
+        }
       });
       calculate();
     };
 
-    // 即時計算與儲存
+// 儲存與即時計算
     fields.forEach(id => {
-      document.getElementById(id).addEventListener('input', () => {
-        const val = document.getElementById(id).value;
-        localStorage.setItem(id, val);
+      const el = document.getElementById(id);
+      el.addEventListener('input', () => {
+        if (el.type === 'checkbox') {
+          localStorage.setItem(id, el.checked);
+        } else {
+          localStorage.setItem(id, el.value);
+        }
         calculate();
       });
     });
@@ -172,6 +204,20 @@
   const petAtkPercent = v('petAtkPercent') / 100;
   const enemyDef = v('enemyDef');
   const reduceRate = v('reduceRate') / 100;
+  // 套裝效果
+  const tracker4 = document.getElementById('setTracker4').checked;
+  const avenger2 = document.getElementById('setAvenger2').checked;
+  const avenger4 = document.getElementById('setAvenger4').checked;
+  const avenger4Boss = document.getElementById('setAvenger4Boss').checked;
+
+  // 套裝加成
+  let weakDmgTotal = weakDmg;
+  let revengeDmgTotal = revengeDmg;
+
+  if (tracker4) weakDmg += 0.65;
+  if (avenger2) revengeDmg += 0.15;
+  if (avenger4) revengeDmg += 0.30;
+  if (avenger4Boss) revengeDmg += 0.70;
 
   const DEF_CONST = 467;
   const defRate = (1 - (enemyDef / (DEF_CONST + enemyDef))) * (1 - reduceRate);
@@ -230,6 +276,7 @@
   </script>
 </body>
 </html>
+
 
 
 
