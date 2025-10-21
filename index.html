@@ -100,6 +100,13 @@
             <span class="px-3 text-gray-400">%</span>
           </div>
         </label>
+        <label class="flex flex-col">
+          <span>無視防禦力</span>
+          <div class="flex items-center border rounded overflow-hidden">
+            <input type="number" id="deffIgnore" class="p-2 w-full pr-1 outline-none" placeholder="輸入數值">
+            <span class="px-3 text-gray-400">%</span>
+          </div>
+        </label>
       </div>
     </section>
     
@@ -165,7 +172,7 @@
     const fields = [
       'atkPanel', 'atkBase', 'formAtk', 'buffAtk', 'skillRate', 'critDmg',
       'weakDmg', 'revengeDmg', 'petAtkFlat', 'petSkillAtk', 'petCritDmg', 
-      'petAtkPercent', 'enemyDef', 'reduceRate', 'setEffect','buffCritDMG','deffDown'
+      'petAtkPercent', 'enemyDef', 'reduceRate', 'setEffect','buffCritDMG','deffDown','deffIgnore'
     ];
 
     // 載入舊資料
@@ -229,8 +236,9 @@ fields.forEach(id => {
       break;
   }
   const deffDown = v('deffDown')/100;
+  const deffIgnore = v('deffIgnore')/100;
   const DEF_CONST = 467;
-  const defRate = (1 - ( (enemyDef * (1-deffDown) ) / (DEF_CONST + (enemyDef * (1-deffDown) )))) * (1 - reduceRate);
+  const defRate = (1 - ( (enemyDef * (1-deffDown) * (1-deffIgnore) ) / (DEF_CONST + (enemyDef * (1-deffDown) * (1-deffIgnore) )))) * (1 - reduceRate);
 
   // ---- 基礎攻擊計算 ----
   const atkTotal = (atkPanel + atkBase * (formAtk + petAtkPercent) + petAtkFlat) * (1 + buffAtk + petSkillAtk);
@@ -286,6 +294,7 @@ fields.forEach(id => {
   </script>
 </body>
 </html>
+
 
 
 
