@@ -210,9 +210,9 @@
 
   document.getElementById('result').innerHTML = `
     <div class="space-y-2">
-      <p>💥 <b>只暴擊：</b> ${Math.round(dmgCritOnly).toLocaleString()}</p>
-      <p>🎯 <b>只弱點：</b> ${Math.round(dmgWeakOnly).toLocaleString()}</p>
-      <p>🔥 <b>暴擊＋弱點：</b> <span class="text-blue-600 font-bold">${Math.round(dmgBoth).toLocaleString()}</span></p>
+      <p><b>只觸發暴擊：</b> ${Math.round(dmgCritOnly).toLocaleString()}</p>
+      <p><b>只觸發弱點：</b> ${Math.round(dmgWeakOnly).toLocaleString()}</p>
+      <p><b>暴擊＋弱點：</b> <span class="text-blue-600 font-bold">${Math.round(dmgBoth).toLocaleString()}</span></p>
     </div>
   `;
 }
@@ -230,5 +230,6 @@
   </script>
 </body>
 </html>
+
 
 
