@@ -196,7 +196,7 @@
   const buffAtk = v('buffAtk') / 100;
   const skillRate = v('skillRate') / 100;
   const critDmg = v('critDmg') / 100;
-  const weakDmg = v('weakDmg') / 100;
+  const weakDmg = (v('weakDmg')+30) / 100;
   const revengeDmg = v('revengeDmg') / 100;
   const petAtkFlat = v('petAtkFlat');
   const petSkillAtk = v('petSkillAtk') / 100;
@@ -214,10 +214,10 @@
   let weakDmgTotal = weakDmg;
   let revengeDmgTotal = revengeDmg;
 
-  if (tracker4) weakDmg += 0.65;
-  if (avenger2) revengeDmg += 0.15;
-  if (avenger4) revengeDmg += 0.30;
-  if (avenger4Boss) revengeDmg += 0.70;
+  if (tracker4) weakDmgTotal += 0.65;
+  if (avenger2) revengeDmgTotal += 0.15;
+  if (avenger4) revengeDmgTotal += 0.30;
+  if (avenger4Boss) revengeDmgTotal += 0.70;
 
   const DEF_CONST = 467;
   const defRate = (1 - (enemyDef / (DEF_CONST + enemyDef))) * (1 - reduceRate);
@@ -230,22 +230,22 @@
   const dmgCritOnly = atkTotal
     * skillRate
     * (1 + (critDmg + petCritDmg - 1)) // 暴擊加成
-    * (1 + revengeDmg)
+    * (1 + revengeDmgTotal)
     * defRate;
 
   // 2️⃣ 只弱點（暴擊不吃，固定100%）
   const dmgWeakOnly = atkTotal
     * skillRate
-    * (1 + weakDmg)
-    * (1 + revengeDmg)
+    * (1 + weakDmgTotal)
+    * (1 + revengeDmgTotal)
     * defRate;
 
   // 3️⃣ 暴擊 + 弱點（原始最終傷害）
   const dmgBoth = atkTotal
     * skillRate
     * (1 + (critDmg + petCritDmg - 1))
-    * (1 + weakDmg)
-    * (1 + revengeDmg)
+    * (1 + weakDmgTotal)
+    * (1 + revengeDmgTotal)
     * defRate;
 
   // ---- 顯示 ----
@@ -276,6 +276,7 @@
   </script>
 </body>
 </html>
+
 
 
 
