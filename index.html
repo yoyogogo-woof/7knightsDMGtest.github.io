@@ -115,7 +115,7 @@
 
       const dmg = 
       ( ( atkPanel + ( atkBase * ( formAtk + petAtkPercent) ) + petAtkFlat ) * (1 + buffAtk + petSkillAtk) ) 
-      * skillRate *  (1 + critDmg) * (1 + weakDmg) * (1 + revengeDmg) * defRate
+      * skillRate *  (1 + ( critDmg - 1 ) ) * (1 + weakDmg) * (1 + revengeDmg) * defRate
       ;
 
       document.getElementById('result').innerText = `最終傷害：${Math.round(dmg).toLocaleString()}`;
@@ -123,6 +123,7 @@
   </script>
 </body>
 </html>
+
 
 
 
