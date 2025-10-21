@@ -1,128 +1,70 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
-  <title>傷害計算機</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    body {
-      font-family: 'Noto Sans TC', sans-serif;
-      background-color: #f9fafb;
-      color: #111827;
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    h1 {
-      text-align: center;
-      color: #2563eb;
-      margin-top: 20px;
-    }
-    .input-group {
-      margin: 12px 0;
-    }
-    label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-    input {
-      width: 100%;
-      padding: 8px;
-      border: 1px solid #d1d5db;
-      border-radius: 6px;
-      font-size: 14px;
-      box-sizing: border-box;
-    }
-    #result {
-      margin-top: 24px;
-      font-size: 20px;
-      font-weight: bold;
-      color: #111827;
-      text-align: center;
-    }
-    @media (max-width: 600px) {
-      body {
-        padding: 10px;
-      }
-      h1 {
-        font-size: 22px;
-      }
-      input {
-        font-size: 16px;
-      }
-    }
-  </style>
+  <title>攻擊力計算機</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <h1>傷害計算機</h1>
+<body class="bg-gray-100 text-gray-800 min-h-screen flex flex-col items-center py-8">
 
-  <div class="input-group"><label>面板攻擊力</label><input type="number" id="atkPanel" value="0"></div>
-  <div class="input-group"><label>基礎攻擊力</label><input type="number" id="atkBase" value="0"></div>
-  <div class="input-group"><label>陣型攻%</label><input type="number" id="formAtk" value="0"></div>
-  <div class="input-group"><label>寵物潛能攻%</label><input type="number" id="petAtkPercent" value="0"></div>
-  <div class="input-group"><label>寵物攻擊力</label><input type="number" id="petAtkFlat" value="0"></div>
-  <div class="input-group"><label>Buff加攻%</label><input type="number" id="buffAtk" value="0"></div>
-  <div class="input-group"><label>寵物技能加攻%</label><input type="number" id="petSkillAtk" value="0"></div>
-  <div class="input-group"><label>招式倍率%</label><input type="number" id="skillRate" value="100"></div>
-  <div class="input-group"><label>暴擊傷害%</label><input type="number" id="critDmg" value="0"></div>
-  <div class="input-group"><label>弱點傷害%</label><input type="number" id="weakDmg" value="0"></div>
-  <div class="input-group"><label>復仇套增傷%</label><input type="number" id="revengeDmg" value="0"></div>
-  <div class="input-group"><label>敵方防禦力</label><input type="number" id="enemyDef" value="0"></div>
+  <!-- 頁面標題 -->
+  <h1 class="text-3xl font-bold mb-6">攻擊力計算機</h1>
 
-  <div id="result">請輸入數值</div>
+  <!-- 整個主容器 -->
+  <div class="bg-white shadow-lg rounded-2xl p-6 w-full max-w-2xl space-y-6">
 
-  <script>
-    const fields = [
-      'atkPanel', 'atkBase', 'formAtk', 'petAtkPercent', 'petAtkFlat',
-      'buffAtk', 'petSkillAtk', 'skillRate', 'critDmg', 'weakDmg', 'revengeDmg', 'enemyDef'
-    ];
+    <!-- 攻擊力區塊 -->
+    <section>
+      <h2 class="text-xl font-semibold border-b pb-2 mb-4">🗡️ 攻擊力相關</h2>
+      <div class="grid grid-cols-2 gap-4">
+        <label class="flex flex-col">
+          <span>面板攻擊力</span>
+          <input type="number" class="border rounded p-2" placeholder="輸入數值">
+        </label>
+        <label class="flex flex-col">
+          <span>基礎攻擊力</span>
+          <input type="number" class="border rounded p-2" placeholder="輸入數值">
+        </label>
+        <label class="flex flex-col">
+          <span>陣型攻%</span>
+          <input type="number" class="border rounded p-2" placeholder="例如 20">
+        </label>
+        <label class="flex flex-col">
+          <span>寵物潛能攻%</span>
+          <input type="number" class="border rounded p-2" placeholder="例如 15">
+        </label>
+      </div>
+    </section>
 
-    // 初始化：從 localStorage 載入舊資料
-    window.onload = () => {
-      fields.forEach(id => {
-        const saved = localStorage.getItem(id);
-        if (saved !== null) document.getElementById(id).value = saved;
-      });
-      calculate();
-    };
+    <!-- 敵人資料區 -->
+    <section>
+      <h2 class="text-xl font-semibold border-b pb-2 mb-4">🛡️ 敵人資料</h2>
+      <div class="grid grid-cols-2 gap-4">
+        <label class="flex flex-col">
+          <span>敵方防禦力</span>
+          <input type="number" class="border rounded p-2" placeholder="輸入防禦值">
+        </label>
+        <label class="flex flex-col">
+          <span>弱點傷害%</span>
+          <input type="number" class="border rounded p-2" placeholder="例如 10">
+        </label>
+      </div>
+    </section>
 
-    // 自動儲存與即時計算
-    fields.forEach(id => {
-      document.getElementById(id).addEventListener('input', () => {
-        const val = document.getElementById(id).value;
-        localStorage.setItem(id, val);
-        calculate();
-      });
-    });
+    <!-- 結果區 -->
+    <section class="text-center">
+      <button class="bg-blue-600 text-white px-6 py-3 rounded-xl hover:bg-blue-700 transition">
+        開始計算
+      </button>
+      <p class="mt-4 text-lg">結果：<span class="font-bold text-blue-600">0</span></p>
+    </section>
 
-    function calculate() {
-      const v = id => parseFloat(document.getElementById(id).value) || 0;
-
-      const atkPanel = v('atkPanel');
-      const atkBase = v('atkBase');
-      const formAtk = v('formAtk') / 100;
-      const petAtkPercent = v('petAtkPercent') / 100;
-      const petAtkFlat = v('petAtkFlat');
-      const buffAtk = v('buffAtk') / 100;
-      const petSkillAtk = v('petSkillAtk') / 100;
-      const skillRate = v('skillRate') / 100;
-      const critDmg = v('critDmg') / 100;
-      const weakDmg = v('weakDmg') / 100;
-      const revengeDmg = v('revengeDmg') / 100;
-      const enemyDef = v('enemyDef');
-      const defRate = 1 - (enemyDef / (467 + enemyDef));
-
-      const dmg = 
-      ( ( atkPanel + ( atkBase * ( formAtk + petAtkPercent) ) + petAtkFlat ) * (1 + buffAtk + petSkillAtk) ) 
-      * skillRate *  (1 + ( critDmg - 1 ) ) * (1 + weakDmg) * (1 + revengeDmg) * defRate
-      ;
-
-      document.getElementById('result').innerText = `最終傷害：${Math.round(dmg).toLocaleString()}`;
-    }
-  </script>
+  </div>
 </body>
 </html>
+
+
 
 
 
