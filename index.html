@@ -55,14 +55,14 @@
           </div>
         </label>
         <label class="flex flex-col">
-          <span>弱點傷害</span>
+          <span>弱點傷害量增加(不包含套裝效果)</span>
           <div class="flex items-center border rounded overflow-hidden">
             <input type="number" id="weakDmg" class="p-2 w-full pr-1 outline-none" placeholder="輸入數值">
             <span class="px-3 text-gray-400">%</span>
           </div>
         </label>
         <label class="flex flex-col">
-          <span>傷害增加</span>
+          <span>傷害量增加(不包含套裝效果)</span>
           <div class="flex items-center border rounded overflow-hidden">
             <input type="number" id="revengeDmg" class="p-2 w-full pr-1 outline-none" placeholder="輸入數值">
             <span class="px-3 text-gray-400">%</span>
@@ -123,8 +123,8 @@
 
     <!-- 結果與按鈕 -->
     <section class="text-center space-y-4">
-      <p class="text-lg">結果：<span id="result" class="font-bold text-blue-600">請輸入數值</span></p>
-      <button id="resetBtn" class="bg-red-500 text-white px-6 py-2 rounded-xl hover:bg-red-600 transition">🔄 重設所有數值</button>
+      <p class="text-lg"><span id="result" class="font-bold text-blue-600">請輸入數值</span></p>
+      <button id="resetBtn" class="bg-red-500 text-white px-6 py-2 rounded-xl hover:bg-red-600 transition">重設所有數值</button>
     </section>
 
   </div>
@@ -200,3 +200,4 @@
   </script>
 </body>
 </html>
+
