@@ -64,7 +64,8 @@
   <div class="input-group"><label>寵物攻擊力</label><input type="number" id="petAtkFlat" value="0"></div>
   <div class="input-group"><label>Buff加攻%</label><input type="number" id="buffAtk" value="0"></div>
   <div class="input-group"><label>寵物技能加攻%</label><input type="number" id="petSkillAtk" value="0"></div>
-  <div class="input-group"><label>招式倍率（輸入百分比，如100代表1倍）</label><input type="number" id="skillRate" value="100"></div>
+  //即時顯示總攻擊力
+  <div class="input-group"><label>招式倍率%</label><input type="number" id="skillRate" value="100"></div>
   <div class="input-group"><label>暴擊傷害%</label><input type="number" id="critDmg" value="0"></div>
   <div class="input-group"><label>弱點傷害%</label><input type="number" id="weakDmg" value="0"></div>
   <div class="input-group"><label>復仇套增傷%</label><input type="number" id="revengeDmg" value="0"></div>
@@ -115,11 +116,13 @@
       const defRate = 1 - (enemyDef / (467 + enemyDef));
 
       const dmg = (
+      (
         atkPanel +
         (atkBase * (formAtk + petAtkPercent)) +
         petAtkFlat
       ) *
-      (1 + buffAtk + petSkillAtk) *
+      (1 + buffAtk + petSkillAtk)
+        ) *
       skillRate *
       (1 + critDmg) *
       (1 + weakDmg) *
@@ -131,3 +134,4 @@
   </script>
 </body>
 </html>
+
