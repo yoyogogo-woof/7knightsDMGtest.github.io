@@ -72,24 +72,13 @@
       <!-- 套裝效果 -->
 <div class="mt-4 border-t pt-4">
   <h3 class="text-lg font-semibold mb-2">💎 套裝效果</h3>
-  <div class="flex flex-col space-y-2">
-    <label class="flex items-center space-x-2">
-      <input type="checkbox" id="setTracker4" class="w-4 h-4">
-      <span>追蹤者四件套（弱點傷害 +35%）</span>
-    </label>
-    <label class="flex items-center space-x-2">
-      <input type="checkbox" id="setAvenger2" class="w-4 h-4">
-      <span>復仇者兩件套（傷害量 +15%）</span>
-    </label>
-    <label class="flex items-center space-x-2">
-      <input type="checkbox" id="setAvenger4" class="w-4 h-4">
-      <span>復仇者四件套（傷害量 +30%）</span>
-    </label>
-    <label class="flex items-center space-x-2">
-      <input type="checkbox" id="setAvenger4Boss" class="w-4 h-4">
-      <span>復仇者四件套（攻擊 BOSS 時 傷害量 +70%）</span>
-    </label>
-  </div>
+  <select id="setEffect" class="border rounded p-2 w-full">
+    <option value="none">無套裝效果</option>
+    <option value="tracker4">追蹤者四件套（弱點傷害 +65%）</option>
+    <option value="avenger2">復仇者兩件套（傷害量 +15%）</option>
+    <option value="avenger4">復仇者四件套（傷害量 +30%）</option>
+    <option value="avenger4Boss">復仇者四件套（攻擊 BOSS 時 傷害量 +70%）</option>
+  </select>
 </div>
     </section>
 
@@ -155,36 +144,26 @@
     const fields = [
       'atkPanel', 'atkBase', 'formAtk', 'buffAtk', 'skillRate', 'critDmg',
       'weakDmg', 'revengeDmg', 'petAtkFlat', 'petSkillAtk', 'petCritDmg', 
-      'petAtkPercent', 'enemyDef', 'reduceRate',
-      'setTracker4', 'setAvenger2', 'setAvenger4', 'setAvenger4Boss'
+      'petAtkPercent', 'enemyDef', 'reduceRate', 'setEffect'
     ];
 
     // 載入舊資料
     window.onload = () => {
-      fields.forEach(id => {
-        const el = document.getElementById(id);
-        const saved = localStorage.getItem(id);
-        if (el.type === 'checkbox') {
-          el.checked = saved === 'true';
-        } else if (saved !== null) {
-          el.value = saved;
-        }
-      });
-      calculate();
-    };
+  fields.forEach(id => {
+    const el = document.getElementById(id);
+    const saved = localStorage.getItem(id);
+    if (saved !== null) el.value = saved;
+  });
+  calculate();
+};
 
-// 儲存與即時計算
-    fields.forEach(id => {
-      const el = document.getElementById(id);
-      el.addEventListener('input', () => {
-        if (el.type === 'checkbox') {
-          localStorage.setItem(id, el.checked);
-        } else {
-          localStorage.setItem(id, el.value);
-        }
-        calculate();
-      });
-    });
+fields.forEach(id => {
+  const el = document.getElementById(id);
+  el.addEventListener('input', () => {
+    localStorage.setItem(id, el.value);
+    calculate();
+  });
+});
 
     // 計算公式
     function calculate() {
@@ -204,20 +183,28 @@
   const petAtkPercent = v('petAtkPercent') / 100;
   const enemyDef = v('enemyDef');
   const reduceRate = v('reduceRate') / 100;
-  // 套裝效果
-  const tracker4 = document.getElementById('setTracker4').checked;
-  const avenger2 = document.getElementById('setAvenger2').checked;
-  const avenger4 = document.getElementById('setAvenger4').checked;
-  const avenger4Boss = document.getElementById('setAvenger4Boss').checked;
+ // 套裝效果
+  const setEffect = document.getElementById('setEffect').value;
 
-  // 套裝加成
   let weakDmgTotal = weakDmg;
   let revengeDmgTotal = revengeDmg;
 
-  if (tracker4) weakDmgTotal += 0.65;
-  if (avenger2) revengeDmgTotal += 0.15;
-  if (avenger4) revengeDmgTotal += 0.30;
-  if (avenger4Boss) revengeDmgTotal += 0.70;
+  switch (setEffect) {
+    case 'tracker4':
+      weakDmgTotal += 0.65;
+      break;
+    case 'avenger2':
+      revengeDmgTotal += 0.15;
+      break;
+    case 'avenger4':
+      revengeDmgTotal += 0.30;
+      break;
+    case 'avenger4Boss':
+      revengeDmgTotal += 0.70;
+      break;
+    default:
+      break;
+  }
 
   const DEF_CONST = 467;
   const defRate = (1 - (enemyDef / (DEF_CONST + enemyDef))) * (1 - reduceRate);
@@ -276,6 +263,7 @@
   </script>
 </body>
 </html>
+
 
 
 
