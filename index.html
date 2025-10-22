@@ -294,6 +294,11 @@ fields.forEach(id => {
     * (1 + weakDmgTotal)
     * (1 + revengeDmgTotal + petDmgIncrese)
     * defRate;
+  // 無暴擊弱點
+  const nono = atkTotal
+    * skillRate
+    * (1 + revengeDmgTotal + petDmgIncrese)
+    * defRate;
 
   // ---- 顯示 ----
   if (isNaN(dmgBoth) || dmgBoth <= 0) {
@@ -303,6 +308,7 @@ fields.forEach(id => {
 
   document.getElementById('result').innerHTML = `
     <div class="space-y-2">
+      <p><b>無暴擊弱點：</b> ${Math.round(nono).toLocaleString()}</p>
       <p><b>只觸發暴擊：</b> ${Math.round(dmgCritOnly).toLocaleString()}</p>
       <p><b>只觸發弱點：</b> ${Math.round(dmgWeakOnly).toLocaleString()}</p>
       <p><b>暴擊＋弱點：</b> <span class="text-blue-600 font-bold">${Math.round(dmgBoth).toLocaleString()}</span></p>
@@ -323,6 +329,7 @@ fields.forEach(id => {
   </script>
 </body>
 </html>
+
 
 
 
