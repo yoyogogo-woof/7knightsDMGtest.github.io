@@ -54,6 +54,7 @@
   <select id="setEffect" class="border rounded p-2 w-full">
     <option value="none">無套裝效果</option>
     <option value="tracker4">追蹤者四件套（弱點傷害 +35%）</option>
+    <option value="assassin4">刺客四件套（無視防禦 +15%）</option>
     <option value="avenger2">復仇者兩件套（傷害量 +15%）</option>
     <option value="avenger4">復仇者四件套（傷害量 +30%）</option>
     <option value="avenger4Boss">復仇者四件套（攻擊 BOSS 時 傷害量 +40%）</option>
@@ -101,7 +102,7 @@
           </div>
         </label>
         <label class="flex flex-col">
-          <span>無視防禦力</span>
+          <span>無視防禦</span>
           <div class="flex items-center border rounded overflow-hidden">
             <input type="number" id="deffIgnore" class="p-2 w-full pr-1 outline-none" placeholder="輸入數值">
             <span class="px-3 text-gray-400">%</span>
@@ -322,6 +323,7 @@ fields.forEach(id => {
   </script>
 </body>
 </html>
+
 
 
 
