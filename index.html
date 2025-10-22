@@ -119,6 +119,13 @@
           <input type="number" id="petAtkFlat" class="border rounded p-2" placeholder="輸入數值">
         </label>
         <label class="flex flex-col">
+          <span>潛能 - 增加攻擊力</span>
+          <div class="flex items-center border rounded overflow-hidden">
+            <input type="number" id="petAtkPercent" class="p-2 w-full pr-1 outline-none" placeholder="輸入數值">
+            <span class="px-3 text-gray-400">%</span>
+          </div>
+        </label>
+        <label class="flex flex-col">
           <span>技能 - 增加攻擊力</span>
           <div class="flex items-center border rounded overflow-hidden">
             <input type="number" id="petSkillAtk" class="p-2 w-full pr-1 outline-none" placeholder="輸入數值">
@@ -131,11 +138,10 @@
             <input type="number" id="petCritDmg" class="p-2 w-full pr-1 outline-none" placeholder="輸入數值">
             <span class="px-3 text-gray-400">%</span>
           </div>
-        </label>
         <label class="flex flex-col">
-          <span>潛能 - 增加攻擊力</span>
+          <span>技能 - 增加傷害</span>
           <div class="flex items-center border rounded overflow-hidden">
-            <input type="number" id="petAtkPercent" class="p-2 w-full pr-1 outline-none" placeholder="輸入數值">
+            <input type="number" id="petDmgIncrese" class="p-2 w-full pr-1 outline-none" placeholder="輸入數值">
             <span class="px-3 text-gray-400">%</span>
           </div>
         </label>
@@ -157,6 +163,13 @@
             <span class="px-3 text-gray-400">%</span>
           </div>
         </label>
+        <label class="flex flex-col">
+          <span>增加防禦力</span>
+          <div class="flex items-center border rounded overflow-hidden">
+            <input type="number" id="enemyDefIncrease" class="p-2 w-full pr-1 outline-none" placeholder="輸入數值">
+            <span class="px-3 text-gray-400">%</span>
+          </div>
+        </label>
       </div>
     </section>
 
@@ -172,7 +185,7 @@
     const fields = [
       'atkPanel', 'atkBase', 'formAtk', 'buffAtk', 'skillRate', 'critDmg',
       'weakDmg', 'revengeDmg', 'petAtkFlat', 'petSkillAtk', 'petCritDmg', 
-      'petAtkPercent', 'enemyDef', 'reduceRate', 'setEffect','buffCritDMG','deffDown','deffIgnore'
+      'petAtkPercent', 'enemyDef', 'reduceRate', 'setEffect','buffCritDMG','deffDown','deffIgnore','enemyDefIncrease','petDmgIncrese'
     ];
 
     // 載入舊資料
@@ -200,24 +213,34 @@ fields.forEach(id => {
   const atkPanel = v('atkPanel');
   const atkBase = v('atkBase');
   const formAtk = v('formAtk') / 100;
-  const buffAtk = v('buffAtk') / 100;
   const skillRate = v('skillRate') / 100;
   const critDmg = v('critDmg') / 100;
+
+  const buffAtk = v('buffAtk') / 100;
   const weakDmg = (v('weakDmg')+30) / 100;
   const revengeDmg = v('revengeDmg') / 100;
+  const buffCritDMG = v('buffCritDMG') / 100;
+  const deffDown = v('deffDown')/100;
+  const deffIgnore = v('deffIgnore')/100;
+      
   const petAtkFlat = v('petAtkFlat');
   const petSkillAtk = v('petSkillAtk') / 100;
   const petCritDmg = v('petCritDmg') / 100;
   const petAtkPercent = v('petAtkPercent') / 100;
+  const petDmgIncrese = v('petDmgIncrese') / 100;
+  
+  
   const enemyDef = v('enemyDef');
   const reduceRate = v('reduceRate') / 100;
-  const buffCritDMG = v('buffCritDMG') / 100;
-      
+  const enemyDefIncrease = v('enemyDefIncrease');
+  
+    
  // 套裝效果
   const setEffect = document.getElementById('setEffect').value;
 
   let weakDmgTotal = weakDmg;
   let revengeDmgTotal = revengeDmg;
+  let deffIgnoreTotal = deffIgnore;
 
   switch (setEffect) {
     case 'tracker4':
@@ -232,14 +255,18 @@ fields.forEach(id => {
     case 'avenger4Boss':
       revengeDmgTotal += 0.70;
       break;
+    case 'assassin4':
+      deffIgnoreTotal += 0.15;
+      break;
     default:
       break;
   }
-  const deffDown = v('deffDown')/100;
-  const deffIgnore = v('deffIgnore')/100;
-  const DEF_CONST = 467;
-  const defRate = (1 - ( (enemyDef * (1-deffDown) * (1-deffIgnore) ) / (DEF_CONST + (enemyDef * (1-deffDown) * (1-deffIgnore) )))) * (1 - reduceRate);
 
+     //敵防
+  const DEF_CONST = 467;
+  const defRate = (1 - ( (enemyDef * (1-deffDown+enemyDefIncrease) * (1-deffIgnoreTotal) ) / (DEF_CONST + (enemyDef * (1-deffDown+enemyDefIncrease) * (1-deffIgnoreTotal) )))) * (1 - reduceRate);
+      
+      
   // ---- 基礎攻擊計算 ----
   const atkTotal = (atkPanel + atkBase * (formAtk + petAtkPercent) + petAtkFlat) * (1 + buffAtk + petSkillAtk);
 
@@ -248,14 +275,14 @@ fields.forEach(id => {
   const dmgCritOnly = atkTotal
     * skillRate
     * (1 + (critDmg + petCritDmg + buffCritDMG - 1)) // 暴擊加成
-    * (1 + revengeDmgTotal)
+    * (1 + revengeDmgTotal + petDmgIncrese)
     * defRate;
 
   // 2️⃣ 只弱點（暴擊不吃，固定100%）
   const dmgWeakOnly = atkTotal
     * skillRate
     * (1 + weakDmgTotal)
-    * (1 + revengeDmgTotal)
+    * (1 + revengeDmgTotal + petDmgIncrese)
     * defRate;
 
   // 3️⃣ 暴擊 + 弱點（原始最終傷害）
@@ -263,7 +290,7 @@ fields.forEach(id => {
     * skillRate
     * (1 + (critDmg + petCritDmg + buffCritDMG - 1))
     * (1 + weakDmgTotal)
-    * (1 + revengeDmgTotal)
+    * (1 + revengeDmgTotal + petDmgIncrese)
     * defRate;
 
   // ---- 顯示 ----
@@ -294,6 +321,7 @@ fields.forEach(id => {
   </script>
 </body>
 </html>
+
 
 
 
