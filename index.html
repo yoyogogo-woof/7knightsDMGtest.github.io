@@ -119,27 +119,28 @@
           <input type="number" id="petAtkFlat" class="border rounded p-2" placeholder="輸入數值">
         </label>
         <label class="flex flex-col">
-          <span>潛能 - 增加攻擊力</span>
+          <span>潛能：增加攻擊力</span>
           <div class="flex items-center border rounded overflow-hidden">
             <input type="number" id="petAtkPercent" class="p-2 w-full pr-1 outline-none" placeholder="輸入數值">
             <span class="px-3 text-gray-400">%</span>
           </div>
         </label>
         <label class="flex flex-col">
-          <span>技能 - 增加攻擊力</span>
+          <span>技能：增加攻擊力</span>
           <div class="flex items-center border rounded overflow-hidden">
             <input type="number" id="petSkillAtk" class="p-2 w-full pr-1 outline-none" placeholder="輸入數值">
             <span class="px-3 text-gray-400">%</span>
           </div>
         </label>
         <label class="flex flex-col">
-          <span>技能 - 增加暴擊傷害</span>
+          <span>技能：增加暴擊傷害</span>
           <div class="flex items-center border rounded overflow-hidden">
             <input type="number" id="petCritDmg" class="p-2 w-full pr-1 outline-none" placeholder="輸入數值">
             <span class="px-3 text-gray-400">%</span>
           </div>
+        </label>
         <label class="flex flex-col">
-          <span>技能 - 增加傷害</span>
+          <span>技能：增加傷害</span>
           <div class="flex items-center border rounded overflow-hidden">
             <input type="number" id="petDmgIncrese" class="p-2 w-full pr-1 outline-none" placeholder="輸入數值">
             <span class="px-3 text-gray-400">%</span>
@@ -232,7 +233,7 @@ fields.forEach(id => {
   
   const enemyDef = v('enemyDef');
   const reduceRate = v('reduceRate') / 100;
-  const enemyDefIncrease = v('enemyDefIncrease');
+  const enemyDefIncrease = v('enemyDefIncrease') / 100;
   
     
  // 套裝效果
@@ -321,6 +322,7 @@ fields.forEach(id => {
   </script>
 </body>
 </html>
+
 
 
 
